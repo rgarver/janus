@@ -103,3 +103,37 @@ color desert
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
+
+function! RunTest(focused)
+  let filename = expand("%")
+  let lineno = line(".")
+  try
+    let term = conque_term#get_instance()
+    wincmd j
+    startinsert
+  catch
+    let term = conque_term#open("bash --login", ["below split"])
+  endtry
+
+  if filename =~ ".feature$"
+    if a:focused == 1
+      call term.writeln("cucumber " . filename . ":" . lineno)
+    else
+      call term.writeln("cucumber " . filename)
+    endif
+  elseif filename =~ "_spec\.rb$"
+    if a:focused == 1
+      call term.writeln("script/spec " . filename . " -l " . lineno)
+    else
+      call term.writeln("script/spec " . filename)
+    endif
+  elseif filename =~ "\.rb$"
+    call term.writeln("ruby " . filename)
+  endif
+endfunction
+
+nnoremap <Leader>R :call RunTest(1)<CR>
+nnoremap <Leader>r :call RunTest(0)<CR>
+
+
+nnoremap <Leader><space> :noh<CR>
