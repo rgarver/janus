@@ -135,5 +135,5 @@ endfunction
 nnoremap <Leader>R :call RunTest(1)<CR>
 nnoremap <Leader>r :call RunTest(0)<CR>
 
-
+command! Bclose Kwbd
 nnoremap <Leader><space> :noh<CR>
