@@ -109,7 +109,7 @@ function! RunTest(focused)
   let lineno = line(".")
   try
     let term = conque_term#get_instance()
-    wincmd j
+    wincmd b
     startinsert
   catch
     let term = conque_term#open("bash --login", ["below split"])
@@ -117,15 +117,15 @@ function! RunTest(focused)
 
   if filename =~ ".feature$"
     if a:focused == 1
-      call term.writeln("cucumber " . filename . ":" . lineno)
+      call term.writeln("bundle exec cucumber " . filename . ":" . lineno)
     else
-      call term.writeln("cucumber " . filename)
+      call term.writeln("bundle exec cucumber " . filename)
     endif
   elseif filename =~ "_spec\.rb$"
     if a:focused == 1
-      call term.writeln("script/spec " . filename . " -l " . lineno)
+      call term.writeln("bundle exec rspec -c " . filename . " -l " . lineno)
     else
-      call term.writeln("script/spec " . filename)
+      call term.writeln("bundle exec rspec -c " . filename)
     endif
   elseif filename =~ "\.rb$"
     call term.writeln("ruby " . filename)
