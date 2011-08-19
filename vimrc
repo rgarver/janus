@@ -181,3 +181,4 @@ nnoremap <Leader>r :call RunTest(0)<CR>
 
 command! Bclose Kwbd
 nnoremap <Leader><space> :noh<CR>
+let g:ConqueTerm_ReadUnfocused = 1
